@@ -1,12 +1,15 @@
-FROM alpine:3.2
+FROM alpine:latest
 
-MAINTAINER chrisdaish@gmail.com
+MAINTAINER ivan@davidkov.eu
 
 RUN apk update \
-    && apk add squid=3.5.4-r2 \
+    && apk add squid \
     && apk add curl \
+    && apk add openssl \
     && rm -rf /var/cache/apk/*
 
+COPY configFiles/squid.conf /etc/squid/squid.conf
+COPY configFiles/openssl.cnf /etc/ssl/openssl.cnf
 COPY start-squid.sh /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/start-squid.sh"]
